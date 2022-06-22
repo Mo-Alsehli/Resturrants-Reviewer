@@ -1,0 +1,1 @@
+CREATE TABLE resturants (id SERIAL PRIMARY KEY, rest_name VARCHAR(50), rest_location VARCHAR(100), price_range INTEGER);

@@ -4,11 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var config_1 = require("./config/config");
+var body_parser_1 = __importDefault(require("body-parser"));
+var resturants_1 = __importDefault(require("./handlers/resturants"));
 var app = (0, express_1.default)();
-var port = 3000;
-app.get('/', function (res, req) {
-    res.send('SERVER STRATED');
+app.use(express_1.default.json());
+app.use(body_parser_1.default.json());
+var port = config_1.config.port || 5000;
+app.get("/", function (req, res, next) {
+    res.send("SERVER STARTED");
+    next();
 });
+(0, resturants_1.default)(app);
 app.listen(port, function () {
     console.log("Server Started At: http://localhost:".concat(port));
 });
