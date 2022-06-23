@@ -18,3 +18,5 @@ resturants_routes(app);
 app.listen(port, () => {
   console.log(`Server Started At: http://localhost:${port}`);
 });
+
+export default app;

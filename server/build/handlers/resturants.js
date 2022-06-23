@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var resturants_1 = require("../models/resturants");
+require("express-async-errors");
 var store = new resturants_1.ResturantsStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var resturants, error_1;
@@ -57,7 +58,96 @@ var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
+var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, resturant, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = Number(req.params.id);
+                return [4 /*yield*/, store.show(id)];
+            case 1:
+                resturant = _a.sent();
+                res.json(resturant);
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _a.sent();
+                throw new Error("Unable To Get One Resturant Route: ".concat(error_2));
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var resturant, createRest, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                resturant = {
+                    rest_name: req.body.name,
+                    rest_location: req.body.location,
+                    price_range: Number(req.body.price_range)
+                };
+                return [4 /*yield*/, store.create(resturant)];
+            case 1:
+                createRest = _a.sent();
+                res.json(createRest);
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _a.sent();
+                throw new Error("Unable To Create A Resturant Route: ".concat(error_3));
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var update = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var resturant, updated, error_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                resturant = {
+                    id: Number(req.params.id),
+                    rest_name: req.body.name,
+                    rest_location: req.body.location,
+                    price_range: req.body.price_range
+                };
+                return [4 /*yield*/, store.update(resturant)];
+            case 1:
+                updated = _a.sent();
+                res.json(updated);
+                return [3 /*break*/, 3];
+            case 2:
+                error_4 = _a.sent();
+                throw new Error("Unable To Update Resturant Route: ".concat(error_4));
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var deleteRest = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var id, deleted, error_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                id = Number(req.params.id);
+                return [4 /*yield*/, store.delete(id)];
+            case 1:
+                deleted = _a.sent();
+                res.json(deleted);
+                return [3 /*break*/, 3];
+            case 2:
+                error_5 = _a.sent();
+                throw new Error("Unable To Delete Resturant Route: ".concat(error_5));
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 var resturants_routes = function (app) {
-    app.get('/restrants', index);
+    app.get('/resturants', index);
+    app.get('/resturants/:id', show);
+    app.post('/resturants', create);
+    app.patch('/resturants/:id', update);
+    app.delete('/resturants/:id', deleteRest);
 };
 exports.default = resturants_routes;

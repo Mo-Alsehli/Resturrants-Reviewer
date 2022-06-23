@@ -38,6 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResturantsStore = void 0;
 var database_1 = require("../database");
+require("express-async-errors");
 var ResturantsStore = /** @class */ (function () {
     function ResturantsStore() {
     }
@@ -59,8 +60,104 @@ var ResturantsStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows];
                     case 3:
                         error_1 = _a.sent();
-                        console.log(error_1);
                         throw new Error("Unable To Get Resturants: ".concat(error_1));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ResturantsStore.prototype.show = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.client.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = "SELECT rest_name, rest_location, price_range FROM resturants WHERE id=$1; ";
+                        return [4 /*yield*/, conn.query(sql, [id])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        return [2 /*return*/, result.rows[0]];
+                    case 3:
+                        error_2 = _a.sent();
+                        throw new Error("Unable To Get Resturant With ID: ".concat(id, ", ").concat(error_2));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ResturantsStore.prototype.create = function (rest) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, newRest, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.client.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'INSERT INTO resturants (rest_name, rest_location, price_range) VALUES ($1, $2, $3) RETURNING *;';
+                        return [4 /*yield*/, conn.query(sql, [rest.rest_name, rest.rest_location, rest.price_range])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        newRest = result.rows[0];
+                        return [2 /*return*/, newRest];
+                    case 3:
+                        error_3 = _a.sent();
+                        throw new Error("Unable To Create A New Resturant: ".concat(error_3));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ResturantsStore.prototype.update = function (rest) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.client.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'UPDATE resturants SET rest_name=$1, rest_location=$2, price_range=$3 WHERE id=$4 RETURNING id, rest_name, rest_location, price_range;';
+                        return [4 /*yield*/, conn.query(sql, [rest.rest_name, rest.rest_location, rest.price_range, rest.id])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        return [2 /*return*/, result.rows[0]];
+                    case 3:
+                        error_4 = _a.sent();
+                        throw new Error("Unable To Update The Resturant: ".concat(error_4));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ResturantsStore.prototype.delete = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.client.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'DELETE FROM resturants WHERE id=$1 RETURNING rest_name, rest_location, price_range;';
+                        return [4 /*yield*/, conn.query(sql, [id])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        return [2 /*return*/, result.rows[0]];
+                    case 3:
+                        error_5 = _a.sent();
+                        throw new Error("Unable To Delete Resturant With ID: ".concat(id, ", ").concat(error_5));
                     case 4: return [2 /*return*/];
                 }
             });
