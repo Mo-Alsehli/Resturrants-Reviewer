@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
+import ResturantsFinder from "../apis/ResturantsFinder";
+import { ResturantsContext } from "../context/ResturantsContext";
 
 const ResturantsList = () => {
+  // eslint-disable-next-line
+  const { resturants, setResturants } = useContext(ResturantsContext);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await ResturantsFinder.get("/");
+        console.log(response.data);
+        setResturants(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className="list-group">
       <table className="table table-hover table-dark">
