@@ -22,7 +22,8 @@ const ResturantsList = () => {
     // eslint-disable-next-line
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();
     try {
       await ResturantsFinder.delete(`/${id}`);
       setResturants(resturants.filter((rest) => rest.id !== id));
@@ -30,8 +31,13 @@ const ResturantsList = () => {
       throw new Error(`Handle Delete Error: ${error}`);
     }
   };
-  const handleUpdate = (id) => {
+  const handleUpdate = (e, id) => {
+    e.stopPropagation();
     navigate(`resturants/${id}/update`);
+  };
+
+  const handleRestSelect = (id) => {
+    navigate(`resturants/${id}`);
   };
 
   return (
@@ -50,7 +56,7 @@ const ResturantsList = () => {
         <tbody>
           {resturants.map((rest) => {
             return (
-              <tr key={rest.id}>
+              <tr key={rest.id} onClick={() => handleRestSelect(rest.id)}>
                 <td>{rest.rest_name}</td>
                 <td>{rest.rest_location}</td>
                 <td>{"$".repeat(rest.price_range)}</td>
@@ -58,7 +64,7 @@ const ResturantsList = () => {
                 <td>
                   <button
                     className="btn btn-warning"
-                    onClick={() => handleUpdate(rest.id)}
+                    onClick={(e) => handleUpdate(e, rest.id)}
                   >
                     Update
                   </button>
@@ -66,7 +72,7 @@ const ResturantsList = () => {
                 <td>
                   <button
                     className="btn btn-danger"
-                    onClick={() => handleDelete(rest.id)}
+                    onClick={(e) => handleDelete(e, rest.id)}
                   >
                     Delete
                   </button>
