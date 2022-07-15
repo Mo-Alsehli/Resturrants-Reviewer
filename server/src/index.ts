@@ -2,6 +2,7 @@ import express from "express";
 import { config } from "./config/config";
 import bodyParser from "body-parser";
 import resturants_routes from "./handlers/resturants";
+import reviews_routes from "./handlers/reviews";
 import cors from "cors";
 
 const app = express();
@@ -19,6 +20,7 @@ app.get(
 );
 
 resturants_routes(app);
+reviews_routes(app);
 app.listen(port, () => {
   console.log(`Server Started At: http://localhost:${port}`);
 });

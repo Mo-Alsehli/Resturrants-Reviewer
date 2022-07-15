@@ -1,9 +1,35 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { ResturantsContext } from "../context/ResturantsContext";
+import { useParams } from "react-router-dom";
+import ResturantsFinder from "../apis/ResturantsFinder";
+import Reviews from "../components/Reviews";
+import AddReview from "../components/AddReview";
 
 const RestDetailPage = () => {
+  const { selectedRest, setSelectedRest } = useContext(ResturantsContext);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await ResturantsFinder.get(`/${id}`);
+      setSelectedRest(response.data);
+      console.log(response.data);
+      console.log(setSelectedRest);
+    };
+    fetchData();
+  }, [id, setSelectedRest]);
+
   return (
     <div>
-      <h1 className="text-center font-weight-light display-1">Detail Page</h1>
+      {selectedRest && (
+        <>
+          <h1 className="text-center display-1">{selectedRest.name}</h1>
+          <div className="mt-3">
+            <Reviews />
+          </div>
+          <AddReview />
+        </>
+      )}
     </div>
   );
 };
