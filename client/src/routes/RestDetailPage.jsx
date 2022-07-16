@@ -13,8 +13,6 @@ const RestDetailPage = () => {
     const fetchData = async () => {
       const response = await ResturantsFinder.get(`/${id}`);
       setSelectedRest(response.data);
-      console.log(response.data);
-      console.log(setSelectedRest);
     };
     fetchData();
   }, [id, setSelectedRest]);
@@ -23,7 +21,7 @@ const RestDetailPage = () => {
     <div>
       {selectedRest && (
         <>
-          <h1 className="text-center display-1">{selectedRest.name}</h1>
+          <h1 className="text-center display-1">{selectedRest.rest_name}</h1>
           <div className="mt-3">
             <Reviews />
           </div>

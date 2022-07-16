@@ -4,6 +4,8 @@ import StarRate from "./StarRate";
 
 const Reviews = () => {
   const { reviews } = useContext(ResturantsContext);
+  console.log(reviews);
+
   return (
     <div className="row row-cols-3 mb-2 mt-3">
       {reviews.map((review) => {
@@ -11,11 +13,12 @@ const Reviews = () => {
           <div
             className="card text-white bg-primary mb-3 mr-4"
             style={{ maxWidth: "30%" }}
+            key={review.id}
           >
             <div className="card-header d-flex justify-content-between">
               <span>{review.name}</span>
               <span>
-                <StarRate rating={review.rating} />
+                <StarRate rating={review.rate} />
               </span>
             </div>
             <div className="card-body">

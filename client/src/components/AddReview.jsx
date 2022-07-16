@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ResturantsFinder from "../apis/ResturantsFinder";
 import { ResturantsContext } from "../context/ResturantsContext";
@@ -7,8 +7,16 @@ const AddReview = () => {
   const [name, setName] = useState("");
   const [rating, setRating] = useState("");
   const [review, setReview] = useState("");
-  const { AddReview } = useContext(ResturantsContext);
+  const { AddReview, setReviews } = useContext(ResturantsContext);
   const { id } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await ResturantsFinder.get(`/${id}/reviews`);
+      setReviews(response.data);
+    };
+    fetchData();
+  }, [id, setReviews]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +33,7 @@ const AddReview = () => {
   };
   return (
     <div className="mb-2">
-      <from action="">
+      <form action="">
         <div className="form-row">
           <div className="form-group col-8">
             <label htmlFor="name">Name</label>
@@ -71,7 +79,7 @@ const AddReview = () => {
         >
           Submit
         </button>
-      </from>
+      </form>
     </div>
   );
 };
