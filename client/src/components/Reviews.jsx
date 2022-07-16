@@ -4,7 +4,6 @@ import StarRate from "./StarRate";
 
 const Reviews = () => {
   const { reviews } = useContext(ResturantsContext);
-  console.log(reviews);
 
   return (
     <div className="row row-cols-3 mb-2 mt-3">

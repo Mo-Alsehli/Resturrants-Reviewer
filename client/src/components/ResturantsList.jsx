@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react";
 import ResturantsFinder from "../apis/ResturantsFinder";
 import { ResturantsContext } from "../context/ResturantsContext";
 import { useNavigate } from "react-router-dom";
+import StarRate from "./StarRate";
 
 const ResturantsList = () => {
   // eslint-disable-next-line
@@ -60,7 +61,18 @@ const ResturantsList = () => {
                 <td>{rest.rest_name}</td>
                 <td>{rest.rest_location}</td>
                 <td>{"$".repeat(rest.price_range)}</td>
-                <td>Reviews</td>
+                <td>
+                  {rest.count ? (
+                    <>
+                      <StarRate rating={rest.average_rating} />
+                      <span className="text-warning ml-1">
+                        {`(${rest.count})`}
+                      </span>{" "}
+                    </>
+                  ) : (
+                    <span className="text-warning">0 reviews</span>
+                  )}
+                </td>
                 <td>
                   <button
                     className="btn btn-warning"
