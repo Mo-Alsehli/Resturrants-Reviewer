@@ -52,7 +52,7 @@ var ResturantsStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.client.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT * FROM resturants;';
+                        sql = "SELECT * FROM resturants LEFT JOIN( SELECT resturant_id, COUNT(*), ROUND(AVG(rate), 2) AS average_rating FROM reviews GROUP BY resturant_id ) reviews ON resturants.id=reviews.resturant_id;";
                         return [4 /*yield*/, conn.query(sql)];
                     case 2:
                         result = _a.sent();
@@ -100,8 +100,12 @@ var ResturantsStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.client.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'INSERT INTO resturants (rest_name, rest_location, price_range) VALUES ($1, $2, $3) RETURNING *;';
-                        return [4 /*yield*/, conn.query(sql, [rest.rest_name, rest.rest_location, rest.price_range])];
+                        sql = "INSERT INTO resturants (rest_name, rest_location, price_range) VALUES ($1, $2, $3) RETURNING *;";
+                        return [4 /*yield*/, conn.query(sql, [
+                                rest.rest_name,
+                                rest.rest_location,
+                                rest.price_range,
+                            ])];
                     case 2:
                         result = _a.sent();
                         conn.release();
@@ -125,8 +129,13 @@ var ResturantsStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.client.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'UPDATE resturants SET rest_name=$1, rest_location=$2, price_range=$3 WHERE id=$4 RETURNING id, rest_name, rest_location, price_range;';
-                        return [4 /*yield*/, conn.query(sql, [rest.rest_name, rest.rest_location, rest.price_range, rest.id])];
+                        sql = "UPDATE resturants SET rest_name=$1, rest_location=$2, price_range=$3 WHERE id=$4 RETURNING id, rest_name, rest_location, price_range;";
+                        return [4 /*yield*/, conn.query(sql, [
+                                rest.rest_name,
+                                rest.rest_location,
+                                rest.price_range,
+                                rest.id,
+                            ])];
                     case 2:
                         result = _a.sent();
                         conn.release();
@@ -149,7 +158,7 @@ var ResturantsStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.client.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'DELETE FROM resturants WHERE id=$1 RETURNING rest_name, rest_location, price_range;';
+                        sql = "DELETE FROM resturants WHERE id=$1 RETURNING rest_name, rest_location, price_range;";
                         return [4 /*yield*/, conn.query(sql, [id])];
                     case 2:
                         result = _a.sent();
